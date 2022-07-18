@@ -1,0 +1,165 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>闭包 | 快点往下看!</title><meta name="keywords" content="闭包"><meta name="author" content="Yi"><meta name="copyright" content="Yi"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="概念闭包就是指一个函数内部的变量或函数访问另外一个函数内部的变量或函数。也就是说，闭包可以让你从内部函数访问外部函数作用域。本质上，闭包是将函数内部和函数外部连接起来的桥梁。 使用场景模拟私有方法在面向对象的语言中，例如 Java、PHP 等，都是支持定义私有成员的，即只有类内部能够访问，而无法被外部类访问。JavaScript 并未原生支持定义私有成员，但是可以使用闭包来模拟实现，私有方法不仅仅">
+<meta property="og:type" content="article">
+<meta property="og:title" content="闭包">
+<meta property="og:url" content="http://example.com/2022/06/06/%E5%89%8D%E7%AB%AF/js/%E5%88%9D%E7%BA%A7/%E9%97%AD%E5%8C%85/index.html">
+<meta property="og:site_name" content="快点往下看!">
+<meta property="og:description" content="概念闭包就是指一个函数内部的变量或函数访问另外一个函数内部的变量或函数。也就是说，闭包可以让你从内部函数访问外部函数作用域。本质上，闭包是将函数内部和函数外部连接起来的桥梁。 使用场景模拟私有方法在面向对象的语言中，例如 Java、PHP 等，都是支持定义私有成员的，即只有类内部能够访问，而无法被外部类访问。JavaScript 并未原生支持定义私有成员，但是可以使用闭包来模拟实现，私有方法不仅仅">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">
+<meta property="article:published_time" content="2022-06-06T11:04:08.000Z">
+<meta property="article:modified_time" content="2022-06-09T14:32:07.378Z">
+<meta property="article:author" content="Yi">
+<meta property="article:tag" content="闭包">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2022/06/06/%E5%89%8D%E7%AB%AF/js/%E5%88%9D%E7%BA%A7/%E9%97%AD%E5%8C%85/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '闭包',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-06-09 22:32:07'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.2"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">114</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">72</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">22</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 日志</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">快点往下看!</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 日志</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">闭包</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-06-06T11:04:08.000Z" title="发表于 2022-06-06 19:04:08">2022-06-06</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-06-09T14:32:07.378Z" title="更新于 2022-06-09 22:32:07">2022-06-09</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/js%E5%9F%BA%E7%A1%80/">js基础</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="闭包"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>闭包就是指<strong>一个函数内部的变量或函数访问另外一个函数内部的变量或函数</strong>。也就是说，<strong>闭包可以让你从内部函数访问外部函数作用域</strong>。本质上，闭包是将函数内部和函数外部连接起来的桥梁。</p>
+<h2 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h2><h3 id="模拟私有方法"><a href="#模拟私有方法" class="headerlink" title="模拟私有方法"></a>模拟私有方法</h3><p>在面向对象的语言中，例如 Java、PHP 等，都是支持定义私有成员的，即只有类内部能够访问，而无法被外部类访问。JavaScript 并未原生支持定义私有成员，但是可以使用闭包来模拟实现，私有方法不仅仅有利于限制对代码的访问，还提供了管理全局命名空间的强大能力，避免非核心的方法弄乱了代码的公共接口部分。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">function student()&#123;</span><br><span class="line">    var HP = 100;</span><br><span class="line">    var addHP = function()&#123;</span><br><span class="line">        return ++HP;</span><br><span class="line">    &#125;</span><br><span class="line">    var decHP = function()&#123;</span><br><span class="line">        return --HP;</span><br><span class="line">    &#125;</span><br><span class="line">    return &#123;</span><br><span class="line">        addHP,</span><br><span class="line">        decHP</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br><span class="line">var stu = student();</span><br><span class="line">console.log(stu.HP); // undefined 不允许直接访问</span><br><span class="line">console.log(stu.addHP()); // 101</span><br><span class="line">console.log(stu.decHP()); // 100</span><br></pre></td></tr></table></figure>
+
+<h3 id="回调机制"><a href="#回调机制" class="headerlink" title="回调机制"></a>回调机制</h3><p>在 js 中，函数可以作为参数被传入，也可以作为返回值返回。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">function localContext()&#123;</span><br><span class="line">    var localVal = 1;</span><br><span class="line">    var callback = function()&#123;</span><br><span class="line">        console.log(localVal); // ... [[Scopes]]: Scopes[2] 0: Closure (localContext) &#123;localVal: 1&#125; 1: Global ...</span><br><span class="line">    &#125;</span><br><span class="line">    console.dir(callback);</span><br><span class="line">    setTimeout(callback, 1000); // 1</span><br><span class="line">&#125;</span><br><span class="line">localContext();</span><br></pre></td></tr></table></figure>
+
+<h3 id="for-循环中的-var-作用域"><a href="#for-循环中的-var-作用域" class="headerlink" title="for 循环中的 var 作用域"></a>for 循环中的 var 作用域</h3><p>在 ECMAScript 2015 引入 let 关键字之前，只有函数作用域和全局作用域，函数作用域中又可以继续嵌套函数作用域，在 for 并未具备局部作用域，于是有一个常见的闭包创建问题。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">function counter()&#123;</span><br><span class="line">    var arr = [];</span><br><span class="line">    for(var i = 0 ; i &lt; 3 ; ++i)&#123;</span><br><span class="line">        arr[i] = function()&#123;</span><br><span class="line">            return i;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return arr;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var coun = counter();</span><br><span class="line">for(var i = 0 ; i &lt; 3 ; ++i)&#123;</span><br><span class="line">    console.log(coun[i]()); // 3 3 3</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可以看到运行输出是 3 3 3，而并不是期望的 0 1 2，原因是这三个闭包在循环中被创建的时候，共享了同一个词法作用域，这个作用域由于存在一个 i 由 var 声明，由于变量提升，具有函数作用域，当执行闭包函数的时候，由于循环早已执行完毕，i 已经被赋值为 3，所以打印为 3 3 3</p>
+<h4 id="解决方式-1：匿名函数新建函数作用域"><a href="#解决方式-1：匿名函数新建函数作用域" class="headerlink" title="解决方式 1：匿名函数新建函数作用域"></a>解决方式 1：匿名函数新建函数作用域</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">function counter()&#123;</span><br><span class="line">    var arr = [];</span><br><span class="line">    for(var i = 0 ; i &lt; 3 ; ++i)&#123;</span><br><span class="line">        (function(i)&#123;</span><br><span class="line">            arr[i] = function()&#123;</span><br><span class="line">                return i;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;)(i);</span><br><span class="line">    &#125;</span><br><span class="line">    return arr;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var coun = counter();</span><br><span class="line">for(var i = 0 ; i &lt; 3 ; ++i)&#123;</span><br><span class="line">    console.log(coun[i]()); // 0 1 2</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="解决方式-2：使用-let-关键字"><a href="#解决方式-2：使用-let-关键字" class="headerlink" title="解决方式 2：使用 let 关键字"></a>解决方式 2：使用 let 关键字</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">function counter()&#123;</span><br><span class="line">    var arr = [];</span><br><span class="line">    for(let i = 0 ; i &lt; 3 ; ++i)&#123;</span><br><span class="line">        arr[i] = function()&#123;</span><br><span class="line">            return i;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return arr;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var coun = counter();</span><br><span class="line">for(var i = 0 ; i &lt; 3 ; ++i)&#123;</span><br><span class="line">    console.log(coun[i]()); // 0 1 2</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="性能考量"><a href="#性能考量" class="headerlink" title="性能考量"></a>性能考量</h3><p>如果不是某些特定任务需要使用闭包，在其它函数中创建函数是不明智的，因为闭包在处理速度和内存消耗方面对脚本性能具有负面影响。<br>在创建新的对象或者类时，方法通常应该关联于对象的原型，而不是定义到对象的构造器中。原因是这将导致每次构造器被调用时，方法都会被重新赋值一次。</p>
+<h3 id="内存泄漏"><a href="#内存泄漏" class="headerlink" title="内存泄漏"></a>内存泄漏</h3><p>参考博客: <a target="_blank" rel="noopener" href="https://www.cnblogs.com/rubylouvre/p/3345294.html">https://www.cnblogs.com/rubylouvre/p/3345294.html</a></p>
+<p>结论：（该结论依旧来源于以上博客）</p>
+<p>从以上测试及结论来看，V8 确实是一个优秀的 javascript 引擎，在这一方面的优化相当到位。而 SpiderMonkey 则采取一种更为友好的方式，不直接删除变量的绑定，而是将值赋为 undefined，也许是 SpiderMonkey 团队考虑到有一些极端特殊的情况，依旧有可能导致使用到该变量，因此保证至少不会抛出 ReferenceError 打断代码的执行。而 IE9 的 Chakra 相比 IE8 的 JScript.dll 进步非常大，细节上的处理也很优秀。Opera 的 Carakan 在这一方面则相对落后，完全没有对闭包内的变量回收进行优化，选择了最为稳妥但略显浪费的方式。</p>
+<p>此外，所有带有优化策略的浏览器，都在内在开销和速度之间选择了一个平衡点，这也正是为什么“多个嵌套函数”这一测试用例中，虽然 inner 没有再使用 largeObject 对象，甚至在 inner 中的断点处，连 help 函数对象也已经解除绑定，却没有解除 largeObject 的绑定。基于这种现象，可以推测各引擎均只选择检查一层的关联性，即不去处理 inner -&gt; help -&gt; largeObject 这样深度的引用关系，只找 inner -&gt; largeObject 和 help -&gt; largeObject 并做一个合集来处理，以提高效率。也许这种方式依旧存在内存开销的浪费，但同时 CPU 资源也是非常贵重的，如何掌握这之间的平衡，便是 javascript 引擎的选择。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://example.com">Yi</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2022/06/06/%E5%89%8D%E7%AB%AF/js/%E5%88%9D%E7%BA%A7/%E9%97%AD%E5%8C%85/">http://example.com/2022/06/06/%E5%89%8D%E7%AB%AF/js/%E5%88%9D%E7%BA%A7/%E9%97%AD%E5%8C%85/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">快点往下看!</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E9%97%AD%E5%8C%85/">闭包</a></div><div class="post_share"><div class="social-share" data-image="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/gh/overtrue/share.js@master/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2022/06/06/%E5%89%8D%E7%AB%AF/js/%E5%88%9D%E7%BA%A7/%E5%8F%98%E9%87%8F%E6%8F%90%E5%8D%87/"><img class="prev-cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">变量提升</div></div></a></div><div class="next-post pull-right"><a href="/2022/06/03/%E5%89%8D%E7%AB%AF/js/%E5%88%9D%E7%BA%A7/%E4%BA%8B%E4%BB%B6%E9%98%BB%E6%AD%A2/"><img class="next-cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">事件阻止</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Yi</div><div class="author-info__description">每一秒都是一条咸鱼</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">114</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">72</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">22</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A6%82%E5%BF%B5"><span class="toc-number">1.</span> <span class="toc-text">概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-number">2.</span> <span class="toc-text">使用场景</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A8%A1%E6%8B%9F%E7%A7%81%E6%9C%89%E6%96%B9%E6%B3%95"><span class="toc-number">2.1.</span> <span class="toc-text">模拟私有方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%9E%E8%B0%83%E6%9C%BA%E5%88%B6"><span class="toc-number">2.2.</span> <span class="toc-text">回调机制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#for-%E5%BE%AA%E7%8E%AF%E4%B8%AD%E7%9A%84-var-%E4%BD%9C%E7%94%A8%E5%9F%9F"><span class="toc-number">2.3.</span> <span class="toc-text">for 循环中的 var 作用域</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E5%BC%8F-1%EF%BC%9A%E5%8C%BF%E5%90%8D%E5%87%BD%E6%95%B0%E6%96%B0%E5%BB%BA%E5%87%BD%E6%95%B0%E4%BD%9C%E7%94%A8%E5%9F%9F"><span class="toc-number">2.3.1.</span> <span class="toc-text">解决方式 1：匿名函数新建函数作用域</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E5%BC%8F-2%EF%BC%9A%E4%BD%BF%E7%94%A8-let-%E5%85%B3%E9%94%AE%E5%AD%97"><span class="toc-number">2.3.2.</span> <span class="toc-text">解决方式 2：使用 let 关键字</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%A7%E8%83%BD%E8%80%83%E9%87%8F"><span class="toc-number">2.4.</span> <span class="toc-text">性能考量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F"><span class="toc-number">2.5.</span> <span class="toc-text">内存泄漏</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/07/18/%E5%89%8D%E7%AB%AF/three.js/threejs%E6%80%BB%E7%BB%93/" title="threejs总结">threejs总结</a><time datetime="2022-07-17T17:23:09.000Z" title="发表于 2022-07-18 01:23:09">2022-07-18</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/07/15/%E5%89%8D%E7%AB%AF/%E4%BC%98%E5%8C%96/%E5%89%8D%E7%AB%AF%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E6%89%8B%E6%AE%B5%E3%80%81%E9%87%8F%E5%8C%96%E6%89%8B%E6%AE%B5/" title="前端性能优化手段与量化手段">前端性能优化手段与量化手段</a><time datetime="2022-07-15T09:36:56.000Z" title="发表于 2022-07-15 17:36:56">2022-07-15</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/07/15/%E5%89%8D%E7%AB%AF/vue/%E5%AE%9E%E7%8E%B0%E6%87%92%E5%8A%A0%E8%BD%BD%E7%9A%84%E6%96%B9%E6%B3%95/" title="实现懒加载的方法">实现懒加载的方法</a><time datetime="2022-07-15T09:34:50.000Z" title="发表于 2022-07-15 17:34:50">2022-07-15</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/07/15/%E5%89%8D%E7%AB%AF/vue/vue%E5%BE%AA%E7%8E%AFkey%E7%9A%84%E4%BD%9C%E7%94%A8/" title="vue循环key的作用">vue循环key的作用</a><time datetime="2022-07-15T09:17:59.000Z" title="发表于 2022-07-15 17:17:59">2022-07-15</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/07/15/%E6%B5%8F%E8%A7%88%E5%99%A8/%E9%87%8D%E7%BB%98%E3%80%81%E9%87%8D%E6%8E%92%E5%8C%BA%E5%88%AB%E5%A6%82%E4%BD%95%E9%81%BF%E5%85%8D/" title="重绘、重排区别如何避免">重绘、重排区别如何避免</a><time datetime="2022-07-15T09:09:59.000Z" title="发表于 2022-07-15 17:09:59">2022-07-15</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2022 By Yi</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

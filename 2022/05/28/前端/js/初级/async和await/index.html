@@ -1,0 +1,219 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>async和await | 快点往下看!</title><meta name="keywords" content="async和await"><meta name="author" content="Yi"><meta name="copyright" content="Yi"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="async 的作用async 需要定义在函数上 123const func &#x3D; async () &#x3D;&gt; &amp;#123;&amp;#125;  被 async 定义的函数会返回 promise await 到底在等什么？ 出于兼容性考虑，await 后面即使不是 Promise，也不会报错，但是这会显得 await 并没有作用  1234const func &#x3D; async () &#x3D;&gt; &amp;#123">
+<meta property="og:type" content="article">
+<meta property="og:title" content="async和await">
+<meta property="og:url" content="http://example.com/2022/05/28/%E5%89%8D%E7%AB%AF/js/%E5%88%9D%E7%BA%A7/async%E5%92%8Cawait/index.html">
+<meta property="og:site_name" content="快点往下看!">
+<meta property="og:description" content="async 的作用async 需要定义在函数上 123const func &#x3D; async () &#x3D;&gt; &amp;#123;&amp;#125;  被 async 定义的函数会返回 promise await 到底在等什么？ 出于兼容性考虑，await 后面即使不是 Promise，也不会报错，但是这会显得 await 并没有作用  1234const func &#x3D; async () &#x3D;&gt; &amp;#123">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">
+<meta property="article:published_time" content="2022-05-28T01:52:46.000Z">
+<meta property="article:modified_time" content="2022-06-10T15:54:58.332Z">
+<meta property="article:author" content="Yi">
+<meta property="article:tag" content="async和await">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2022/05/28/%E5%89%8D%E7%AB%AF/js/%E5%88%9D%E7%BA%A7/async%E5%92%8Cawait/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'async和await',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-06-10 23:54:58'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.2"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">114</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">72</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">22</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 日志</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">快点往下看!</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 日志</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">async和await</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-05-28T01:52:46.000Z" title="发表于 2022-05-28 09:52:46">2022-05-28</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-06-10T15:54:58.332Z" title="更新于 2022-06-10 23:54:58">2022-06-10</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/js%E5%9F%BA%E7%A1%80/">js基础</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="async和await"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="async-的作用"><a href="#async-的作用" class="headerlink" title="async 的作用"></a>async 的作用</h2><p>async 需要定义在函数上</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">const func = async () =&gt; &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>被 async 定义的函数会返回 promise</p>
+<h2 id="await-到底在等什么？"><a href="#await-到底在等什么？" class="headerlink" title="await 到底在等什么？"></a>await 到底在等什么？</h2><blockquote>
+<p>出于兼容性考虑，await 后面即使不是 Promise，也不会报错，但是这会显得 await 并没有作用</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">const func = async () =&gt; &#123;</span><br><span class="line">  await fetch(url); // 有作用</span><br><span class="line">  await console.log(&quot;111&quot;); // &quot;await&quot; 对此表达式的类型没有影响</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>await 在等待 Promise.resolve()</p>
+</blockquote>
+<blockquote>
+<p>注意，此处有 await</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">function promise()&#123;</span><br><span class="line">    return new Promise(function(resolve,reject)&#123;</span><br><span class="line">        var rand = Math.random() * 2;</span><br><span class="line">        setTimeout(function()&#123;</span><br><span class="line">            console.log(&quot;resolve before&quot;)</span><br><span class="line">            resolve(`solve $&#123;rand&#125;`);</span><br><span class="line">            console.log(&quot;resolve after&quot;)</span><br><span class="line">        &#125;,1000)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">(async function asyncPromise()&#123;</span><br><span class="line">    var result = await promise(); // 有await</span><br><span class="line">    console.log(`res: $&#123;result&#125;`);</span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure>
+
+<p>输出结果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">resolve before</span><br><span class="line">resolve after</span><br><span class="line">res: solve 0.07997609497625202</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注意，此处无 await</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">function promise()&#123;</span><br><span class="line">    return new Promise(function(resolve,reject)&#123;</span><br><span class="line">        var rand = Math.random() * 2;</span><br><span class="line">        setTimeout(function()&#123;</span><br><span class="line">            console.log(&quot;resolve before&quot;)</span><br><span class="line">            resolve(`solve $&#123;rand&#125;`);</span><br><span class="line">            console.log(&quot;resolve after&quot;)</span><br><span class="line">        &#125;,1000)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">(async function asyncPromise()&#123;</span><br><span class="line">    var result = promise(); // 无 await</span><br><span class="line">    console.log(`res: $&#123;result&#125;`);</span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure>
+
+<p>输出结果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">res: [object Promise]</span><br><span class="line">Promise &#123;&lt;fulfilled&gt;: undefined&#125;</span><br><span class="line">resolve before</span><br><span class="line">resolve after</span><br></pre></td></tr></table></figure>
+
+<h2 id="async-await-中的串行与并行"><a href="#async-await-中的串行与并行" class="headerlink" title="async/await 中的串行与并行"></a>async/await 中的串行与并行</h2><h3 id="使用语法"><a href="#使用语法" class="headerlink" title="使用语法"></a>使用语法</h3><ul>
+<li><p>✔：表示在循环中每个异步请求是按照次序来执行的，我们简称为 “串行”</p>
+<ul>
+<li>✔ for…of…</li>
+<li>✔ reduce</li>
+<li>✔ generator</li>
+</ul>
+</li>
+<li><p>❌ ：表示只借助循环执行所有异步请求，不保证次序，我们简称为 “并行”</p>
+<ul>
+<li>❌ forEach</li>
+<li>❌ Promise.all</li>
+</ul>
+</li>
+</ul>
+<p>举例：两个 fetch，分别命名为 A 和 B，串行就是先运行 A,再运行 B，并行就是 A、B 一起运行，由于 js 本身的特性，并没有真正的并行，只是利用了空余的运算时间。</p>
+<h3 id="串行"><a href="#串行" class="headerlink" title="串行"></a>串行</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">const func = async () =&gt; &#123;</span><br><span class="line">  await fetch(A);</span><br><span class="line">  await fetch(B);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="并行"><a href="#并行" class="headerlink" title="并行"></a>并行</h3><blockquote>
+<p>并行都是先计算，再等待结果</p>
+</blockquote>
+<ol>
+<li>先 fetch，再 await 结果</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">const func = async () =&gt; &#123;</span><br><span class="line">  const A = fetch(A);</span><br><span class="line">  const B = fetch(B);</span><br><span class="line">  await A;</span><br><span class="line">  await B;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>利用 Promise.all</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">const res = Promise.all([</span><br><span class="line">  fetch[A],</span><br><span class="line">  fetch[B],</span><br><span class="line">])</span><br></pre></td></tr></table></figure>
+
+<h2 id="在循环中使用-async-await"><a href="#在循环中使用-async-await" class="headerlink" title="在循环中使用 async/await"></a>在循环中使用 async/await</h2><blockquote>
+<p>首先需要理解，是需要使用串行还是并行</p>
+</blockquote>
+<h3 id="串行-1"><a href="#串行-1" class="headerlink" title="串行"></a>串行</h3><ul>
+<li>for…of…</li>
+<li>reduce</li>
+<li>generator</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">const list = [&#x27;51465&#x27;,&#x27;161561&#x27;]</span><br><span class="line"></span><br><span class="line">for (const id of list) &#123;</span><br><span class="line">  await fetch(id);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="并行-1"><a href="#并行-1" class="headerlink" title="并行"></a>并行</h3><ul>
+<li>Promise.all</li>
+<li>forEach</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">const list = [&quot;51465&quot;, &quot;161561&quot;];</span><br><span class="line">const promises = list.map(id =&gt; fetch(id))</span><br><span class="line"></span><br><span class="line">for (const promise of promises) &#123;</span><br><span class="line">  await promise;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://example.com">Yi</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2022/05/28/%E5%89%8D%E7%AB%AF/js/%E5%88%9D%E7%BA%A7/async%E5%92%8Cawait/">http://example.com/2022/05/28/%E5%89%8D%E7%AB%AF/js/%E5%88%9D%E7%BA%A7/async%E5%92%8Cawait/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">快点往下看!</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/async%E5%92%8Cawait/">async和await</a></div><div class="post_share"><div class="social-share" data-image="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/gh/overtrue/share.js@master/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2022/05/28/%E5%89%8D%E7%AB%AF/vue/SPA/"><img class="prev-cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">SPA</div></div></a></div><div class="next-post pull-right"><a href="/2022/05/27/%E5%89%8D%E7%AB%AF/js/%E8%BF%9B%E9%98%B6v1.0.0/%E8%BF%AD%E4%BB%A3%E5%99%A8%E5%92%8Cfor-of%E5%BE%AA%E7%8E%AF/"><img class="next-cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">迭代器和for-of循环</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Yi</div><div class="author-info__description">每一秒都是一条咸鱼</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">114</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">72</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">22</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#async-%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="toc-number">1.</span> <span class="toc-text">async 的作用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#await-%E5%88%B0%E5%BA%95%E5%9C%A8%E7%AD%89%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-number">2.</span> <span class="toc-text">await 到底在等什么？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#async-await-%E4%B8%AD%E7%9A%84%E4%B8%B2%E8%A1%8C%E4%B8%8E%E5%B9%B6%E8%A1%8C"><span class="toc-number">3.</span> <span class="toc-text">async&#x2F;await 中的串行与并行</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E8%AF%AD%E6%B3%95"><span class="toc-number">3.1.</span> <span class="toc-text">使用语法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%B2%E8%A1%8C"><span class="toc-number">3.2.</span> <span class="toc-text">串行</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B9%B6%E8%A1%8C"><span class="toc-number">3.3.</span> <span class="toc-text">并行</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9C%A8%E5%BE%AA%E7%8E%AF%E4%B8%AD%E4%BD%BF%E7%94%A8-async-await"><span class="toc-number">4.</span> <span class="toc-text">在循环中使用 async&#x2F;await</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%B2%E8%A1%8C-1"><span class="toc-number">4.1.</span> <span class="toc-text">串行</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B9%B6%E8%A1%8C-1"><span class="toc-number">4.2.</span> <span class="toc-text">并行</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/07/18/%E5%89%8D%E7%AB%AF/three.js/threejs%E6%80%BB%E7%BB%93/" title="threejs总结">threejs总结</a><time datetime="2022-07-17T17:23:09.000Z" title="发表于 2022-07-18 01:23:09">2022-07-18</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/07/15/%E5%89%8D%E7%AB%AF/%E4%BC%98%E5%8C%96/%E5%89%8D%E7%AB%AF%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E6%89%8B%E6%AE%B5%E3%80%81%E9%87%8F%E5%8C%96%E6%89%8B%E6%AE%B5/" title="前端性能优化手段与量化手段">前端性能优化手段与量化手段</a><time datetime="2022-07-15T09:36:56.000Z" title="发表于 2022-07-15 17:36:56">2022-07-15</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/07/15/%E5%89%8D%E7%AB%AF/vue/%E5%AE%9E%E7%8E%B0%E6%87%92%E5%8A%A0%E8%BD%BD%E7%9A%84%E6%96%B9%E6%B3%95/" title="实现懒加载的方法">实现懒加载的方法</a><time datetime="2022-07-15T09:34:50.000Z" title="发表于 2022-07-15 17:34:50">2022-07-15</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/07/15/%E5%89%8D%E7%AB%AF/vue/vue%E5%BE%AA%E7%8E%AFkey%E7%9A%84%E4%BD%9C%E7%94%A8/" title="vue循环key的作用">vue循环key的作用</a><time datetime="2022-07-15T09:17:59.000Z" title="发表于 2022-07-15 17:17:59">2022-07-15</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/07/15/%E6%B5%8F%E8%A7%88%E5%99%A8/%E9%87%8D%E7%BB%98%E3%80%81%E9%87%8D%E6%8E%92%E5%8C%BA%E5%88%AB%E5%A6%82%E4%BD%95%E9%81%BF%E5%85%8D/" title="重绘、重排区别如何避免">重绘、重排区别如何避免</a><time datetime="2022-07-15T09:09:59.000Z" title="发表于 2022-07-15 17:09:59">2022-07-15</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2022 By Yi</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
